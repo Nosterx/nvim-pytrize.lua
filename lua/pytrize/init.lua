@@ -9,6 +9,19 @@ local function setup_commands()
     vim.cmd('command PytrizeJumpFixture lua require("pytrize.api").jump_fixture()')
 end
 
+
+local warm_up_cache = require'pytrize.jump'.warm_up_cache
+
+local function create_autocmd()
+    vim.api.nvim_create_autocmd({"BufRead"}, {
+        pattern = "*/tests*/*.py",
+        callback = function(args)
+            warm_up_cache():start()
+        end,
+    })
+end
+
+
 M.setup = function(opts)
     if opts == nil then
         opts = {}
@@ -17,6 +30,7 @@ M.setup = function(opts)
     if not settings.settings.no_commands then
         setup_commands()
     end
+    create_autocmd()
 end
 
 return M
