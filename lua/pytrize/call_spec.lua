@@ -4,7 +4,7 @@ local ts = vim.treesitter
 local ts_query = ts.query
 local parse_query = ts_query.parse or ts_query.parse_query
 
-local warn = require('pytrize.warn').warn
+local notify = require('pytrize.notify')
 local tbls = require('pytrize.tables')
 
 local get_root = function(bufnr)
@@ -103,7 +103,7 @@ local get_entry = function(entry_idx, entry_node, params, bufnr)
   local item_nodes = get_named_children(entry_node)
   if #params ~= #item_nodes then
     -- TODO warn here?
-    -- warn(string.format(
+    -- notify.warn(string.format(
     --   'number of items in entry tuple differ from number of params, %d items and %d params (line %d in %s)',
     --   #item_nodes,
     --   #params,
@@ -146,7 +146,7 @@ M.get_calls = function(bufnr)
     local decorated_definition = call:parent():parent()
     if decorated_definition:type() ~= 'decorated_definition' then
       local row = call:start()
-      warn(string.format(
+      notify.warn(string.format(
         "couldn't parse params (line %d)\n  expected `decorated_definition`\n  got `%s`",
         row,
         decorated_definition:type()
@@ -160,7 +160,7 @@ M.get_calls = function(bufnr)
     local params_node = arguments:child(1)
     if params_node:type() ~= 'string' then
       local row = call:start()
-      warn(string.format(
+      notify.warn(string.format(
         "couldn't parse params (line %d)\n  expected `string`\n  got `%s`",
         row,
         params_node:type()

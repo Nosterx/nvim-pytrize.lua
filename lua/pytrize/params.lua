@@ -2,7 +2,7 @@
 --
 -- local paths = require('pytrize.paths')
 -- local nids = require('pytrize.nodeids')
--- local warn = require('pytrize.warn').warn
+-- local notify = require('pytrize.warn')
 --
 -- M.get_values = function(param_order, bufnr)
 --     local rootdir, file = paths.split_at_root(vim.api.nvim_buf_get_name(bufnr))
@@ -11,7 +11,7 @@
 --     end
 --     local nodeids = nids.get(rootdir)
 --     if nodeids[file] == nil then
---         warn("no pytest cache for file " .. file .. " at root dir " .. rootdir)
+--         notify.warn("no pytest cache for file " .. file .. " at root dir " .. rootdir)
 --         return
 --     end
 --     local values_per_func = {}

@@ -1,7 +1,7 @@
 local M = {}
 
 local split_once = require('pytrize.strings').split_once
-local warn = require('pytrize.warn').warn
+local notify = require('pytrize.notify')
 local get_nodeids_path = require('pytrize.paths').get_nodeids_path
 
 local function get_raw_nodeids(rootdir)
@@ -44,7 +44,7 @@ M.get = function(rootdir)
         local nodeid = M.parse_raw(raw_nodeid)
         if nodeid ~= nil then
             if nodeid.file == nil then
-                warn('node id has no file')
+                notify.warn('node id has no file')
                 return {}
             end
             if nodeids[nodeid.file] == nil then

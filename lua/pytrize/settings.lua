@@ -1,18 +1,18 @@
 local M = {}
 
-local warn = require('pytrize.warn').warn
+local notify = require('pytrize.notify')
 
 -- defaults
 M.settings = {
     no_commands = false,
     highlight = 'LineNr',
-    -- preferred_input = 'telescope',
+    preferred_input = 'telescope',
 }
 
 M.update = function(opts)
     for k, v in pairs(opts) do
         if M.settings[k] == nil then
-            warn("unexpected setting " .. k)
+            notify.warn("unexpected setting " .. k)
         else
             M.settings[k] = v
         end

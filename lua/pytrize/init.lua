@@ -13,7 +13,7 @@ end
 local warm_up_cache = require'pytrize.jump'.warm_up_cache
 
 local function create_autocmd()
-    vim.api.nvim_create_autocmd({"BufRead"}, {
+    vim.api.nvim_create_autocmd({"BufRead", "BufWrite", "BufEnter"}, {
         pattern = "*/tests*/*.py",
         callback = function(args)
             warm_up_cache():start()

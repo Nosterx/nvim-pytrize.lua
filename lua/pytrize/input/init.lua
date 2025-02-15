@@ -1,7 +1,7 @@
 -- local M = {}
 --
 -- local settings = require('pytrize.settings').settings
--- local warn = require('pytrize.warn').warn
+-- local notify = require('pytrize.notify')
 --
 -- local function get_nui_handler()
 --     return require('pytrize.input.nui').load()
@@ -29,7 +29,7 @@
 --
 -- local function get_input_handler()
 --     if handler_getters[settings.preferred_input] == nil then
---         warn(string.format('unknown input choice "%s"', settings.preferred_input))
+--         notify.warn(string.format('unknown input choice "%s"', settings.preferred_input))
 --         return
 --     end
 --     local handler = handler_getters[settings.preferred_input]()

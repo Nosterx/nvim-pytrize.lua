@@ -5,7 +5,7 @@ local nids = require('pytrize.nodeids')
 local tbls = require('pytrize.tables')
 local paths = require('pytrize.paths')
 -- local prompt_files = require('pytrize.input').prompt_files
-local warn = require('pytrize.warn').warn
+local notify = require('pytrize.notify')
 local open_file = require('pytrize.jump.util').open_file
 local get_nodeids_path = require('pytrize.paths').get_nodeids_path
 local min = require('pytrize.utils').min
@@ -29,7 +29,7 @@ local function query_file(func_name, callback)
     end
   end
   if #files == 0 then
-    warn(string.format(
+    notify.warn(string.format(
       'could not find the file for function `%s` when looking in %s, did you run the test?',
       func_name,
       get_nodeids_path(rootdir)
@@ -50,7 +50,7 @@ local function jump_to_nodeid_at_cursor(callback)
   local line = vim.api.nvim_buf_get_lines(0, line_num - 1, line_num, 0)[1]
   local i, _ = string.find(line, '%S*:?:?test_%w+%[.*')  -- TODO how to check for zero or two :?
   if i == nil then
-    warn("no nodeid under cursor")
+    notify.warn("no nodeid under cursor")
     return
   end
   local nodeid = nids.parse_raw(line:sub(i))
@@ -58,7 +58,7 @@ local function jump_to_nodeid_at_cursor(callback)
   local param_position = pattern_position - nodeid.param_start_idx + 1  -- cursor relative to params
   param_position = min(max(1, param_position), nodeid.params:len())  -- restrict it to be inside
   if nodeid == nil then
-    warn("couldn't parse nodeid under cursor")
+    notify.warn("couldn't parse nodeid under cursor")
     return
   end
   if nodeid.file == nil then
@@ -83,7 +83,7 @@ end
 --     end
 --   end
 --   if found_call_spec == nil then
---     warn("couldn't find the declaration with param " .. param)
+--     notify.warn("couldn't find the declaration with param " .. param)
 --     return
 --   end
 --   return found_call_spec
@@ -104,7 +104,7 @@ end
 --   local max = tbls.max_length(param_values[call_spec.func_name])
 --   while true do
 --     if list_idx > max then
---       warn("couldn't find the declaration matching id " .. param_id)
+--       notify.warn("couldn't find the declaration matching id " .. param_id)
 --       return
 --     end
 --     local pid = params.get_id(param_values[call_spec.func_name], call_spec.params, list_idx)
@@ -137,7 +137,7 @@ M.to_declaration = function()
     local bufnr = 0
     local original_buffer = vim.api.nvim_buf_get_name(bufnr)
     if vim.fn.filereadable(nodeid.file) == 0 then
-      warn(string.format('file `%s` is not readable', nodeid.file))
+      notify.warn(string.format('file `%s` is not readable', nodeid.file))
       return
     end
     open_file(nodeid.file)
@@ -166,7 +166,7 @@ M.to_declaration = function()
         end
       end
     end
-    warn(string.format(
+    notify.warn(string.format(
       'could not find the id `%s` of `%s` in file `%s`',
       nodeid.params,
       nodeid.func_name,

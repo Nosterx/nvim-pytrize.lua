@@ -1,6 +1,6 @@
 local M = {}
 
-local warn = require('pytrize.warn').warn
+local notify = require('pytrize.notify')
 
 local function is_root_dir(dir)
     return vim.fn.finddir('.pytest_cache', dir) ~= ''
@@ -25,7 +25,7 @@ M.split_at_root = function(file)
             return dir, join_path(rel_file_fragments)
         end
     end
-    warn("couldn't find the pytest root dir")
+    notify.warn("couldn't find the pytest root dir")
 end
 
 M.get_nodeids_path = function(rootdir)
