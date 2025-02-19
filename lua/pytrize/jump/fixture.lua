@@ -40,7 +40,7 @@ local function parse_raw_fixture_output(cwd, lines)
 end
 
 local function get_cwd()
-    return Path:new(vim.api.nvim_buf_get_name(0)):parent()
+    return Path:new(vim.fn.getcwd())
 end
 
 local function lookup_fixtures(callback)
@@ -49,7 +49,7 @@ local function lookup_fixtures(callback)
     return Job:new({
         command = 'pytest',
         args = {'--fixtures', '-v', current_file_path},
-        cwd = tostring(cwd),
+        cwd = vim.fn.getcwd(),
         on_exit = vim.schedule_wrap(function(j, return_val)
             if return_val == 0 then
                 local fixtures = parse_raw_fixture_output(cwd, j:result())
