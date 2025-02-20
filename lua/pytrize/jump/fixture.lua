@@ -57,9 +57,10 @@ local function lookup_fixtures(callback)
             else
                 notify.err(
                     string.format(
-                        'failed to query fixtures, pytest response code: %d, result: %s',
+                        'failed to query fixtures, pytest response code: %d, result: %s, stderr: %s',
                         return_val,
-                        table.concat(j:result(), '\n')
+                        table.concat(j:result(), '\n'),
+                        table.concat(j:stderr_result(), '\n')
                     )
                 )
             end
