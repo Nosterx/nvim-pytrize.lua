@@ -30,7 +30,9 @@ M.setup = function(opts)
     if not settings.settings.no_commands then
         setup_commands()
     end
-    create_autocmd()
+    if not settings.settings.no_autocmds then
+        create_autocmd()
+    end
 end
 
 return M

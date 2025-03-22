@@ -5,6 +5,7 @@ local notify = require('pytrize.notify')
 -- defaults
 M.settings = {
     no_commands = false,
+    no_autocmds = false,
     highlight = 'LineNr',
     preferred_input = 'telescope',
 }

@@ -5,6 +5,7 @@ local Path = require('plenary.path')
 
 local notify = require('pytrize.notify')
 local open_file = require('pytrize.jump.util').open_file
+local settings = require('pytrize.settings')
 
 local conf = require('telescope.config').values
 local pickers = require('telescope.pickers')
@@ -110,6 +111,9 @@ end
 
 M.to_declaration = function()
     local fixture = get_word_under_cursor()
+    if settings.settings.no_autocmds then
+        M.warm_up_cache():sync()
+    end
     local locations = M.fixtures_cache[fixture]
     if len(locations) > 0 then
         if len(locations) == 1 then
